@@ -16,7 +16,7 @@ def YJDownloadStockData(symbol, startdate:datetime):
     
  #   n_days =  (datetime.today() - startdate).days
 
-    n_days =  np.busday_count( startdate.date(), datetime.today().date() )- 200
+    n_days =  np.busday_count( startdate.date(), datetime.today().date() )- 260
 
     #'https://finance.yahoo.co.jp/quote/8411.T/history?from=20210101&to=20210913&timeFrame=d&page=1'
     #url = '/home/carlo/Downloads/8411.html'
