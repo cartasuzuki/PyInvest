@@ -117,6 +117,9 @@ def DownloadAllStocksCSVs():
 
 
 
+DownloadAllStocksCSVs()
+FormatStocksCSVs()
+
 
 
 
