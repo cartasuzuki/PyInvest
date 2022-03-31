@@ -103,24 +103,30 @@ def FormatStocksCSVs():
             i = 1
         stock_prices[[str(symbol)]] = myprices[['adjclose']]
 
+    stock_prices = FixFormat(stock_prices)
+    
     stock_prices.to_csv('nikkei50.csv')
 
+
+def FixFormat(stocks):
+    stocks = stocks.replace(',','', regex=True)
+    cols=[i for i in stocks.columns if i not in ["timestamp"]]
+
+    for col in cols:
+        stocks[col]=pd.to_numeric(stocks[col])
+    return stocks
 
 def DownloadAllStocksCSVs():
     fromdate = datetime(2017,1,1)
     stockdata = pd.DataFrame()
     stock_symbols = pd.read_csv('https://raw.githubusercontent.com/cartasuzuki/phynance/master/datasets/nikkei_high_dividend_yield_50_weight_en.csv', usecols=['Code'])
+    
+    
+    
     for symbol in stock_symbols['Code']:
         stockdata = YJDownloadStockData(str(symbol), fromdate)
         stockdata.to_csv(str(symbol)+'.csv')
         print( str(symbol) +'.csv saved')
-
-
-
-DownloadAllStocksCSVs()
-FormatStocksCSVs()
-
-
 
 
 
