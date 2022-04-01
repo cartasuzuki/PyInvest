@@ -119,7 +119,7 @@ def FixFormat(stocks):
 def DownloadAllStocksCSVs():
     fromdate = datetime(2017,1,1)
     stockdata = pd.DataFrame()
-    stock_symbols = pd.read_csv('https://raw.githubusercontent.com/cartasuzuki/phynance/master/datasets/nikkei_high_dividend_yield_50_weight_en.csv', usecols=['Code'])
+    stock_symbols = pd.read_csv('https://raw.githubusercontent.com/cartasuzuki/PyInvest/master/nikkei_high_dividend_yield_50_weight_en.csv', usecols=['Code'])
     
     
     
