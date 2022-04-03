@@ -1,3 +1,4 @@
+from ast import If
 from pandas.core.frame import DataFrame
 from pandas.io import html
 import requests
@@ -8,7 +9,7 @@ from datetime import datetime, timedelta
 from datetime import date
 import time
 
-def YJDownloadStockData(symbol, startdate:datetime):
+def YJDownloadStockData(symbol, startdate:datetime, download_all_data = False):
 
 
 
@@ -16,18 +17,23 @@ def YJDownloadStockData(symbol, startdate:datetime):
     
  #   n_days =  (datetime.today() - startdate).days
 
-    n_days =  np.busday_count( startdate.date(), datetime.today().date() )- 260
+    n_days =  np.busday_count( startdate.date(), datetime.today().date() )
+    n_pages = n_days/20
 
     #'https://finance.yahoo.co.jp/quote/8411.T/history?from=20210101&to=20210913&timeFrame=d&page=1'
     #url = '/home/carlo/Downloads/8411.html'
 
-    columns = ['date', 'adjclose']
+    if download_all_data == True:
+        columns = ['date', 'open', 'high', 'low', 'close', 'volume', 'adjclose']    
+    else:
+        columns = ['date', 'adjclose']
+
 
     wholepage_stock_data = pd.DataFrame()
     
 
     
-    for p in range(1,50):        
+    for p in range(1,n_pages):        
         #with open(url+str(i),'r') as f:
             #doc = lh.fromstring(f.read())
         time.sleep(1)
@@ -67,8 +73,7 @@ def YJDownloadStockData(symbol, startdate:datetime):
                     datastring = datastring.replace("月", "/")
                     datastring = datastring.replace("日", "")
                     stockticker.append(datastring)
-                
-                if (index == 6):
+                elif (index == 6 or download_all_data == True):
                     stockticker.append(data)
                 index+=1
             
